@@ -46,31 +46,25 @@ class ApplyController extends Controller
                  $data,
                 );
 
-        $registeration = [
-                'invoice_number' => 'JUPEB|REG|'.NumberGenerator::registerationNumber(),
-                'status' => 'PENDING'
-            ];
+        $student_type = ($student->programme == 'science') ? 'SCI' : 'NONSCI' ;
+        $amount = ($student->programme == 'science') ? '200000' : '195000' ;
 
-        $acceptance = [
-                'invoice_number' => 'JUPEB|ACCFEE|'.NumberGenerator::acceptanceNumber(),
-                'status' => 'PENDING'
-            ];
-
-        $schoolFee = [
-                'invoice_number' => 'JUPEB|SCHFEE|'.NumberGenerator::schoolFeeNumber(),
-                'status' => 'PENDING'
-            ];
-
-        $paymentRef = PaymentReferemce::firstOrCreate(
+        $payment = PaymentReferemce::firstOrCreate(
             ['student_id' => $student->id],
             [
-                'registration' => serialize($registeration),
-                'acceptance' => serialize($acceptance),
-                'schoolFee' => serialize($schoolFee),
+                'registration_invoice' => 'JUPEB/REG/'.NumberGenerator::registerationNumber(),
+                'registration_status' => 'PENDING',
+                'registration_amount' => '15500',
+                'acceptance_invoice' => 'JUPEB/ACCFE/'.NumberGenerator::acceptanceNumber(),
+                'acceptance_status' => 'PENDING',
+                'acceptance_amount' => '10500',
+                'schoolFee_invoice' => 'JUPEB/SCHFEE/'.$student_type.'/'.NumberGenerator::schoolFeeNumber(),
+                'schoolFee_status' => 'PENDING',
+                'schoolFee_amount' => $amount,
             ]);
 
 
-        return view('front.apply.registerationInvoice', compact('student', 'registeration'));
+        return view('front.apply.registerationInvoice', compact('student', 'payment'));
 
 
     }

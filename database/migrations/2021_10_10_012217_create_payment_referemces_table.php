@@ -16,9 +16,15 @@ class CreatePaymentReferemcesTable extends Migration
         Schema::create('payment_referemces', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('students');
-            $table->string('registration');
-            $table->string('acceptance');
-            $table->string('schoolFee');
+            $table->string('registration_invoice');
+            $table->string('registration_status');;
+            $table->string('registration_amount');
+            $table->string('acceptance_invoice');
+            $table->string('acceptance_status');;
+            $table->string('acceptance_amount');
+            $table->string('schoolFee_invoice');
+            $table->string('schoolFee_status');;
+            $table->string('schoolFee_amount');
             $table->timestamps();
         });
     }
