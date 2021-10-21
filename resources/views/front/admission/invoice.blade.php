@@ -5,7 +5,7 @@
         <div class="container pt-10 pb-12 pt-md-10 pb-md-10 text-center">
             <div class="row">
                 <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
-                    <h1 class="display-1 mb-3">Invoice</h1>
+                    <h1 class="display-1 mb-3">Acceptance Fee Invoice</h1>
                     <p class="lead px-xxl-10">Print and take the invoice to any bank branch to pay registeration fee</p>
                 </div>
             <!-- /column -->
@@ -44,7 +44,7 @@
                                 <div class="row pl-5 pr-5">
 
                                     <div class="col-md-9">
-                                        @if ($registeration['status'] == 'PAID')
+                                        @if ($payment->acceptance_status == 'PAID')
                                             <span class="badge bg-green rounded-pill text-uppercase">Paid</span>
                                             <small>AWAITING APPROVAL</small>
                                         @else
@@ -75,16 +75,16 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Invoice Number</th>
-                                                    <th scope="col">Account Name</th>
+                                                    <th scope="col">Payment Description</th>
                                                     <th scope="col">Amount</th>
                                                     <th scope="col">Method </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>{{ $registeration['invoice_number']  }}</td>
-                                                    <td>{{ __('JUPEB REGISTRATION') }}</td>
-                                                    <td>{{ 'NGN'. number_format(15500)  }}</td>
+                                                    <td>{{ $payment->acceptance_invoice  }}</td>
+                                                    <td>{{ __('JUPEB ACCEPTANCE FEE') }}</td>
+                                                    <td>{{ 'NGN'. number_format($payment->acceptance_amount )  }}</td>
                                                     <td>{{ __('Bank Branch') }}</td>
                                                 </tr>
                                             </tbody>
@@ -110,7 +110,7 @@
 @endsection
 
 @section('title')
-Invoice -
+Acceptance Fee Invoice -
 @endsection
 
 @section('style')

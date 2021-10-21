@@ -34,6 +34,7 @@ class CompleteApplicationRequest extends FormRequest
             'course' => 'required',
             'dob' => 'required',
             'state' => 'required',
+            'gender' => 'required',
             'contactAddress' => 'required',
             'nationality' => 'required',
             'lga' => 'required',

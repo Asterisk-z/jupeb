@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Student;
 use App\Http\Requests\CompleteApplicationRequest;
+use App\Models\PaymentReferemce;
 
 class RegisterationController extends Controller
 {
@@ -16,9 +17,8 @@ class RegisterationController extends Controller
      */
     public function index()
     {
-        Alert::alert('Title', 'Message', 'Type');
-        $student = Student::where('id', 1)->firstOrFail();
-        return view('front.apply.registeration', compact('student'));
+
+        return view('front.apply.checkRegisteration');
     }
 
     /**
@@ -26,9 +26,22 @@ class RegisterationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function student(Request $request)
     {
         //
+        $data = $request->validate([
+            'invoiceNumber' => 'required|exists:payment_referemces,registration_invoice',
+        ]);
+        $payment = PaymentReferemce::where('registration_invoice', $data['invoiceNumber'])->firstOrFail();
+        $student = $payment->student;
+
+        if ($student->registerationStatus == 1) {
+           Alert::success('success', 'You aready completed the registeration');
+            return redirect()->back();
+        }
+
+        Alert::success('success', 'Complete the registeration and await Admission');
+        return view('front.apply.registeration', compact('student'));
     }
 
     /**
@@ -39,9 +52,30 @@ class RegisterationController extends Controller
      */
     public function store(CompleteApplicationRequest $request)
     {
-        $data = $request->all();
 
-        dd($data);
+        $data = $request->validated();
+
+        $student = Student::where('email', $data['email'])->firstOrFail();
+
+        $data['jamb'] = 'jamb-'.$student->id.'.'.$request->jamb->extension();
+        $data['wace'] = 'wace-'.$student->id.'.'.$request->wace->extension();
+        $data['passport'] = 'passport-'.$student->id.'.'.$request->passport->extension();
+        if (isset($data['otherResult'])) {
+            $data['otherResult'] = 'otherResult-'.$student->id.'.'.$request->otherResult->extension();
+            $request->otherResult->move(public_path('images/upload/'.$request->lastName.'-'.$request->id), $data['otherResult']);
+        }
+
+        $request->wace->move(public_path('images/upload/'.$student->lastName.'-'.$student->id), $data['wace']);
+        $request->jamb->move(public_path('images/upload/'.$student->lastName.'-'.$student->id), $data['jamb']);
+        $request->passport->move(public_path('images/upload/'.$student->lastName.'-'.$student->id), $data['passport']);
+
+
+        $data['registerationStatus'] = '1' ;
+
+        $student = Student::updateOrCreate(['email' => $data['email']], $data);
+        
+        alert()->success('Success','Update SuccessFul! Please ensure not to submit twice');
+        return view('front.apply.completed', compact('student'));
     }
 
     /**

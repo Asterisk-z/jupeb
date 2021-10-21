@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,13 +11,14 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title')  Unical - Faculty and Departmental Dues</title>
+    <title>@yield('title') Unical - Faculty and Departmental Dues</title>
 
     <link rel="icon" href="{{ asset('img/favicon.png') }}">
     <!-- Vendors Style-->
     <link rel="stylesheet" href="{{ asset('assets/vendor_components/aos/aos.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor_components/bootstrap/dist/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor_components/OwlCarousel2/dist/assets/owl.theme.default.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/vendor_components/OwlCarousel2/dist/assets/owl.theme.default.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('corenav-master/coreNavigation-1.1.3.css') }}">
 
@@ -30,6 +32,7 @@
 
 
 </head>
+
 <body class="hold-transition dark-skin sidebar-mini theme-primary fixed">
 
     @include('inc.backHeader')
@@ -43,12 +46,13 @@
 
     <!-- Vendor JS -->
     <script src="{{ asset('backend/js/vendors.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/icons/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/icons/feather-icons/feather.min.js') }}"></script>
 
     <!-- EduAdmin App -->
-    <script src="{{ asset('backend/js/template.js') }}"></script>
-    <script src="{{ asset('backend/js/pages/dashboard4.js') }}"></script>
+    {{-- <script src="{{ asset('backend/js/template.js') }}"></script> --}}
+    {{-- <script src="{{ asset('backend/js/pages/dashboard4.js') }}"></script> --}}
     @yield('script')
 
 </body>
+
 </html>

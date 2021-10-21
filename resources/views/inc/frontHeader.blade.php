@@ -16,13 +16,13 @@
                 </div>
                 <ul class="navbar-nav text-uppercase">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('apply') }}">Apply</a>
+                        <a class="nav-link" href="{{ route('apply.main') }}">Apply</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Admission</a>
+                        <a class="nav-link" href="{{ route('admission.main') }}">Admission</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">School Fee</a>
+                        <a class="nav-link" href="{{ route('schoolfee.main') }}">School Fee</a>
                     </li>
                 </ul>
                 <!-- /.navbar-nav -->

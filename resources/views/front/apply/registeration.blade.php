@@ -21,7 +21,7 @@
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                        <form class="" method="post" action="{{ route('complete.apply.store') }}">
+                        <form class="" method="post" action="{{ route('complete.apply.store') }}"  enctype="multipart/form-data">
                             @csrf
                             <div class="row gx-4">
 
@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-floating mb-4">
-                                        <select class="form-select" id="form-marital" required name="dob">
+                                        <select class="form-select" id="form-marital" required name="gender">
                                             <option selected disabled value="">Select Gender</option>
                                             <option value="male" >Male</option>
                                             <option value="female" >Female</option>
@@ -219,7 +219,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-4">
-                                        <input id="form_neco" type="file" name="neco" class="form-control"  accept="image/*">
+                                        <input id="form_neco" type="file" name="otherResult" class="form-control"  accept="image/*">
                                         <label for="form_neco">O Level Certificate (optional)</label>
                                     </div>
                                 </div>

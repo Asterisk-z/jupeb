@@ -28,7 +28,7 @@ Class CustomerValidation {
                 break;
 
             default:
-                return self::default();
+                return self::default($invoiceNumber);
                 break;
         }
 
@@ -40,10 +40,15 @@ Class CustomerValidation {
 
         $refrence = PaymentReferemce::where('registration_invoice', $invoiceNumber)->first();
 
+        if (!$refrence) {
+            return self::failed($invoiceNumber);
+        }else{
+            $amount = $refrence->registration_amount;
 
-        $amount = $refrence->registration_amount;
+            return self::success($refrence, $invoiceNumber, $amount);
+        }
 
-        return self::success($refrence, $invoiceNumber, $amount);
+
 
 	}
 
@@ -53,10 +58,11 @@ Class CustomerValidation {
 
         if (!$refrence) {
             return self::failed($invoiceNumber);
-        }
-        $amount = $refrence->acceptance_amount;
+        }else{
+            $amount = $refrence->acceptance_amount;
 
-        return self::success($refrence, $invoiceNumber, $amount);
+            return self::success($refrence, $invoiceNumber, $amount);
+        }
 
 	}
 
@@ -67,11 +73,11 @@ Class CustomerValidation {
 
         if (!$refrence) {
             return self::failed($invoiceNumber);
+        }else{
+            $amount = $refrence->schoolFee_amount;
+
+            return self::success($refrence, $invoiceNumber, $amount);
         }
-
-        $amount = $refrence->schoolFee_amount;
-
-        return self::success($refrence, $invoiceNumber, $amount);
 
 	}
 
@@ -82,11 +88,11 @@ Class CustomerValidation {
 
         if (!$refrence) {
             return self::failed($invoiceNumber);
+        }else{
+            $amount = $refrence->schoolFee_amount;
+
+            return self::success($refrence, $invoiceNumber, $amount);
         }
-
-        $amount = $refrence->schoolFee_amount;
-
-        return self::success($refrence, $invoiceNumber, $amount);
 
 	}
 
@@ -109,14 +115,13 @@ Class CustomerValidation {
                             'Customer' => [
                                 'Status' => '0',
                                 'CustReference' => $invoiceNumber,
-                                // 'CustomerReferenceAlternate ' => '',
+                                // 'CustomerReferenceAlternate' => '',
                                 'FirstName' => $refrence->student->firstName,
                                 'LastName' => $refrence->student->lastName,
                                 'Email' =>  $refrence->student->email,
                                 'Phone' =>  $refrence->student->phoneNumber,
                                 // 'ThirdPartyCode' => '',
-                                'Amount' =>  $amount,
-                                'ServiceUrl'=> route('paymentNotification'),
+                                'Amount' =>  $amount
                             ]
                         ]
                     ];
@@ -137,7 +142,13 @@ Class CustomerValidation {
                             'Customer' => [
                                 'Status' => '1',
                                 'CustReference' => $invoiceNumber,
-                                'ServiceUrl'=> route('paymentNotification'),
+                                'CustomerReferenceAlternate' => 'NONE',
+                                'FirstName' => 'NONE',
+                                'LastName' => 'NONE',
+                                'Email' =>  'NONE',
+                                'Phone' =>  'NONE',
+                                'ThirdPartyCode' => 'NONE',
+                                'Amount' =>  'NONE'
                             ]
                         ]
                     ];
@@ -147,5 +158,13 @@ Class CustomerValidation {
 	}
 
 
-
+// <CustomerInformationRequest>
+// 	<ServiceUrl>Https://jupeb.myunicalportal.net/api/payments/paydirect/notification</ServiceUrl>
+//     <ServiceUsername></ServiceUsername>
+//     <ServicePassword></ServicePassword>
+//     <MerchantReference>6405</MerchantReference>
+//     <CustReference>JUPEB/REG/0577697788</CustReference>
+//     <PaymentItemCode>REGISTERATIONFEE</PaymentItemCode>
+//     <ThirdPartyCode></ThirdPartyCode>
+// </CustomerInformationRequest>
 }
