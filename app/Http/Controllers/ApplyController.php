@@ -6,6 +6,7 @@ use App\Http\Requests\ApplyRequest;
 use App\Models\PaymentReferemce;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Services\Api\InvoiceNotification;
 use App\Services\NumberGenerator;
 
 class ApplyController extends Controller
@@ -62,6 +63,8 @@ class ApplyController extends Controller
                 'schoolFee_status' => 'PENDING',
                 'schoolFee_amount' => $amount,
             ]);
+
+        InvoiceNotification::post($payment->registration_invoice, $student->email, 'REGISTERATIONFEE', $student->firstName, $student->lastName, $payment->registration_amount);
 
 
         return view('front.apply.registerationInvoice', compact('student', 'payment'));

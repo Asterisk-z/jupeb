@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
     Route::get('/students', [AdminStudentController::class, 'index'])->name('students');
-    Route::get('/students/completed/registeration', [AdminStudentController::class, 'registed'])->name('students.registed');
+    Route::get('/students/completed/registeration', [AdminStudentController::class, 'registered'])->name('students.registed');
     Route::get('/students/provided/admission', [AdminStudentController::class, 'admission'])->name('students.admission');
 
     Route::get('/student/{student}/registered', [AdminStudentController::class, 'student'])->name('student');

@@ -8,12 +8,19 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="box box-widget widget-user">
-					<!-- Add the bg color to the header using any of the bg-* classes -->
-                            <div class="widget-user-header bg-img bbsr-0 bber-0" style="background: url('../images/gallery/full/10.jpg') center center;" data-overlay="5">
-                                <h3 class="widget-user-username text-white text-uppercase">{{ $student->lastName.' '.$student->firstName.' '.$student->middleName }}</h3>
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <div class="widget-user-header bg-img bbsr-0 bber-0"
+                                style="background: url('../images/gallery/full/10.jpg') center center;" data-overlay="5">
+                                <h3 class="widget-user-username text-white text-uppercase">
+                                    {{ $student->lastName . ' ' . $student->firstName . ' ' . $student->middleName }}</h3>
                                 <h6 class="widget-user-desc text-white">{{ $student->email }}</h6>
 
-                                 <a href="{{ route('giveAdmission', $student->id) }}" class=" btn btn-sm btn-success mb-5" ><i class="fa fa-check"></i> Offer Admission</a>
+                                @if ($student->registerationStatus)
+                                    <a href="{{ route('giveAdmission', $student->id) }}"
+                                        class=" btn btn-sm btn-success mb-5"><i class="fa fa-check"></i> Offer
+                                        Admission</a>
+                                @endif
+
                             </div>
                             <div class="widget-user-image">
                                 <img class="rounded-circle" src="{{ asset('images/logo/jupeb.png') }}" alt="User Avatar">
@@ -34,7 +41,8 @@
                                                     <tr>
                                                         <th scope="row"></th>
                                                         <td>Full Name</td>
-                                                        <td>{{ $student->lastName.' '.$student->firstName.' '.$student->middleName }}</td>
+                                                        <td>{{ $student->lastName . ' ' . $student->firstName . ' ' . $student->middleName }}
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row"></th>
@@ -65,8 +73,9 @@
                                                         <th scope="row"></th>
                                                         <td>Registeration Status</td>
                                                         <td>
-                                                            <span class="badge badge-pill text-uppercase {{ ($student->registerationStatus) ? 'badge-success' : 'badge-danger'}}">
-                                                                {{ ($student->registerationStatus) ? 'Registeration Completed' : 'Incomplete Registeration'}}
+                                                            <span
+                                                                class="badge badge-pill text-uppercase {{ $student->registerationStatus ? 'badge-success' : 'badge-danger' }}">
+                                                                {{ $student->registerationStatus ? 'Registeration Completed' : 'Incomplete Registeration' }}
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -74,12 +83,13 @@
                                                         <th scope="row"></th>
                                                         <td>Registeration Fee Status</td>
                                                         <td>
-                                                            <span class="badge badge-pill text-uppercase {{ ($student->paymentReferemce->registration_status == 'PAID') ? 'badge-success' : 'badge-danger'}}">
-                                                                {{ ($student->paymentReferemce->registration_status == 'PAID') ? 'Registeration FEE PAID' : 'Registeration Fee NOT PAID'}}
+                                                            <span
+                                                                class="badge badge-pill text-uppercase {{ $student->paymentReferemce->registration_status == 'PAID' ? 'badge-success' : 'badge-danger' }}">
+                                                                {{ $student->paymentReferemce->registration_status == 'PAID' ? 'Registeration FEE PAID' : 'Registeration Fee NOT PAID' }}
                                                             </span>
                                                         </td>
                                                     </tr>
-                                                    @if($student->registerationStatus)
+                                                    @if ($student->registerationStatus)
                                                         <tr>
                                                             <th scope="row"></th>
                                                             <td>Gender</td>
@@ -135,8 +145,11 @@
                                                             <th scope="row"></th>
                                                             <td>JAMB Result </td>
                                                             <td>
-                                                                <a class="image-popup-vertical-fit" href={{ asset('images/upload/'.$student->jamb) }}" title="Caption. Can be aligned to any side and contain any HTML.">
-                                                                    <img src="{{ asset('images/upload/'.$student->jamb) }}" class="img-fluid" alt="" />
+                                                                <a class="image-popup-vertical-fit"
+                                                                    href={{ asset('images/upload/' . $student->jamb) }}"
+                                                                    title="Caption. Can be aligned to any side and contain any HTML.">
+                                                                    <img src="{{ asset('images/upload/' . $student->jamb) }}"
+                                                                        class="img-fluid" alt="" />
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -144,8 +157,11 @@
                                                             <th scope="row"></th>
                                                             <td>Waec Result </td>
                                                             <td>
-                                                                <a class="image-popup-vertical-fit" href={{ asset('images/upload/'.$student->waec) }}" title="Caption. Can be aligned to any side and contain any HTML.">
-                                                                    <img src="{{ asset('images/upload/'.$student->waec) }}" class="img-fluid" alt="" />
+                                                                <a class="image-popup-vertical-fit"
+                                                                    href={{ asset('images/upload/' . $student->waec) }}"
+                                                                    title="Caption. Can be aligned to any side and contain any HTML.">
+                                                                    <img src="{{ asset('images/upload/' . $student->waec) }}"
+                                                                        class="img-fluid" alt="" />
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -154,22 +170,25 @@
                                                                 <th scope="row"></th>
                                                                 <td>Other Result </td>
                                                                 <td>
-                                                                    <a class="image-popup-vertical-fit" href={{ asset('images/upload/'.$student->otherResult) }}" title="Caption. Can be aligned to any side and contain any HTML.">
-                                                                        <img src="{{ asset('images/upload/'.$student->otherResult) }}" class="img-fluid" alt="" />
+                                                                    <a class="image-popup-vertical-fit"
+                                                                        href={{ asset('images/upload/' . $student->otherResult) }}"
+                                                                        title="Caption. Can be aligned to any side and contain any HTML.">
+                                                                        <img src="{{ asset('images/upload/' . $student->otherResult) }}"
+                                                                            class="img-fluid" alt="" />
                                                                     </a>
                                                                 </td>
-                                                            </tr> 
+                                                            </tr>
                                                         @endif
-                                                        
+
                                                     @endif
-                                               
+
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
-                            <!-- /.row -->
+                                <!-- /.row -->
                             </div>
                         </div>
                     </div>
@@ -181,16 +200,18 @@
 @endsection
 
 @section('script')
-	<script src="{{ asset('assets/vendor_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js') }}"></script>
-	<!-- EduAdmin App -->
-	<script src={{ asset('js/template.js') }}"></script>
+    <script src="{{ asset('assets/vendor_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js') }}">
+    </script>
+    <script src="{{ asset('assets/vendor_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js') }}">
+    </script>
+    <!-- EduAdmin App -->
+    <script src={{ asset('js/template.js') }}"></script>
 
 @endsection
 
 @section('title')
 
-{{  ucfirst($student->firstName) }}
+    {{ ucfirst($student->firstName) }}
 
 
 @endsection

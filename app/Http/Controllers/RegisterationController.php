@@ -35,13 +35,22 @@ class RegisterationController extends Controller
         $payment = PaymentReferemce::where('registration_invoice', $data['invoiceNumber'])->firstOrFail();
         $student = $payment->student;
 
-        if ($student->registerationStatus == 1) {
-           Alert::success('success', 'You aready completed the registeration');
+        if($payment->registration_status == 'PENDING') {
+            Alert::error('error', 'Please Pay the Registeration Fee Before Proceding');
             return redirect()->back();
-        }
+        }else {
+            if ($student->registerationStatus == 1) {
+                Alert::success('success', 'You aready completed the registeration');
+                return view('front.apply.completed', compact('student'));
+            }else {
+                Alert::success('success', 'Complete the registeration and await Admission');
+                return view('front.apply.registeration', compact('student'));
+            }
+        };
 
-        Alert::success('success', 'Complete the registeration and await Admission');
-        return view('front.apply.registeration', compact('student'));
+
+
+
     }
 
     /**
@@ -73,7 +82,7 @@ class RegisterationController extends Controller
         $data['registerationStatus'] = '1' ;
 
         $student = Student::updateOrCreate(['email' => $data['email']], $data);
-        
+
         alert()->success('Success','Update SuccessFul! Please ensure not to submit twice');
         return view('front.apply.completed', compact('student'));
     }

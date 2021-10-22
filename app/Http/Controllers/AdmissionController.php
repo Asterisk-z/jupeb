@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CompleteApplicationRequest;
 use App\Models\PaymentReferemce;
 use App\Models\Student;
+use App\Services\Api\InvoiceNotification;
 use App\Services\NumberGenerator;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -30,7 +31,7 @@ class AdmissionController extends Controller
     {
          return view('front.admission.status');
     }
-    
+
     public function acceptance()
     {
          return view('front.admission.status');
@@ -79,7 +80,7 @@ class AdmissionController extends Controller
             return redirect()->back();
         }
 
-        // alert()->success('Success','Update SuccessFul! Please ensure not to submit twice');
+        InvoiceNotification::post($payment->acceptance_invoice, $student->email, 'ACCEPTANCEFEE', $student->firstName, $student->lastName, $payment->acceptance_amount);
 
         return view('front.admission.invoice', compact('student', 'payment'));
     }

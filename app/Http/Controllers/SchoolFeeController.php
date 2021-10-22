@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\PaymentReferemce;
+use App\Services\Api\InvoiceNotification;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SchoolFeeController extends Controller
@@ -48,7 +49,7 @@ class SchoolFeeController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $data = $request->validate([
             'email' => 'required',
             'acceptanceInvoiceNumber' => 'required',
@@ -62,6 +63,8 @@ class SchoolFeeController extends Controller
             Alert::error('Acceptance Fee Error', 'Please Pay Acceptance Fee First..');
             return redirect()->back();
         }
+
+        InvoiceNotification::post($payment->schoolFee_invoice, $student->email, 'SCHOOLFEE', $student->firstName, $student->lastName, $payment->schoolFee_amount);
 
         return view('front.schoolfee.invoice', compact('payment', 'student'));
     }
